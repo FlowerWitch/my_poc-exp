@@ -1,5 +1,11 @@
 # my_poc-exp
 自己写的poc和exp存放处
+
+-----
+## 2024年5月31日
+
+用友智石开PLM-信息泄露 hunter语法(web.body="智石开PLM"||web.title="智石开PLM")
+
 -----
 ## 2024年5月24日
 
