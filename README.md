@@ -1,5 +1,12 @@
 # my_poc-exp
-自己写的poc和exp存放处
+自用的poc和exp存放处
+
+-----
+## 2024年6月1日
+
+万户ezEIP /member/success.aspx接口反序列化rce
+
+-----
 
 -----
 ## 2024年5月31日
