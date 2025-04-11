@@ -1,10 +1,17 @@
 # my_poc-exp
 自用的poc和exp存放处
 
+## 2025年4月11日
+
+CVE-2025-32395 vite LFI bypassbypassbypassbypass 
+---
+
+
 ## 2024年10月27日
 
 锐捷校园自助系统任意文件读取 补丁绕过
 
+---
 ## 2024年10月10日
 
 迪普 VPN 任意文件读取
