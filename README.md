@@ -1,6 +1,13 @@
 # my_poc-exp
 自用的poc和exp存放处
 
+## 2025年4月12日
+
+CVE-2025-32395 vite LFI add windows
+
+---
+
+
 ## 2025年4月11日
 
 CVE-2025-32395 vite LFI bypassbypassbypassbypass 
